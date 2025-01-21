@@ -2,10 +2,10 @@
 
 class SendMessage {
   constructor(chatId) {
-    this.chatId = chatId; // Kullanıcı ID'si veya sohbet ID'si
+    this.chatId = chatId; // The chat ID to send messages to
   }
 
-  // Düz metin mesajı gönder
+  // Sends a plain text message
   text(message) {
     return {
       type: "text",
@@ -14,17 +14,68 @@ class SendMessage {
     };
   }
 
-  // Link içeren bir metin mesajı gönder
-  textWithLink(message, link) {
-    const formattedMessage = `${message} [Buraya Tıklayın](${link})`;
+  // Sends a text message with markdown and variable expression
+  markdownText(message) {
     return {
       type: "text",
       chatId: this.chatId,
-      message: formattedMessage,
+      message, // Supports markdown and variables
     };
   }
 
-  // Carousel mesajı gönder
+  // Sends an image message
+  image(url, title) {
+    return {
+      type: "image",
+      chatId: this.chatId,
+      url,
+      title, // Title is mandatory
+    };
+  }
+
+  // Sends an audio message
+  audio(url, title) {
+    return {
+      type: "audio",
+      chatId: this.chatId,
+      url,
+      title, // Title is mandatory
+    };
+  }
+
+  // Sends a video message
+  video(url, title) {
+    return {
+      type: "video",
+      chatId: this.chatId,
+      url,
+      title, // Title is mandatory
+    };
+  }
+
+  // Sends a file attachment
+  file(url, title) {
+    return {
+      type: "file",
+      chatId: this.chatId,
+      url,
+      title, // Title is mandatory
+    };
+  }
+
+  // Sends a card message with an image, title, subtitle, and action
+  card(title, subtitle, image, actions) {
+    return {
+      type: "card",
+      chatId: this.chatId,
+      title,
+      subtitle,
+      image,
+      actions, // Action button such as a link
+    };
+  }
+
+  // Sends a carousel message with multiple cards
   carousel(items) {
     return {
       type: "carousel",
@@ -33,21 +84,22 @@ class SendMessage {
         title: item.title,
         subtitle: item.subtitle,
         image: item.image,
-        actions: item.actions, // Örneğin, butonlar için action tanımları
+        actions: item.actions, // Actions such as buttons
       })),
     };
   }
 
-  // Görsel mesaj gönder
-  image(url, altText) {
+  // Sends a location message
+  location(latitude, longitude) {
     return {
-      type: "image",
+      type: "location",
       chatId: this.chatId,
-      url,
-      altText,
+      coordinates: {
+        latitude,
+        longitude,
+      },
     };
   }
 }
 
 module.exports = SendMessage;
-
